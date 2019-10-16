@@ -31,3 +31,13 @@ CREATE TABLE movements (
 );
 -- ALTER SEQUENCE accounts_id_seq RESTART WITH 101;
 ALTER TABLE movements REPLICA IDENTITY FULL;
+
+-- Loyalty Points
+CREATE TABLE loyaltypoints (
+  id SERIAL NOT NULL PRIMARY KEY,
+  account_id INTEGER  NOT NULL,
+  points NUMERIC(15,2),
+  FOREIGN KEY (account_id) REFERENCES accounts(id)
+);
+-- ALTER SEQUENCE accounts_id_seq RESTART WITH 101;
+ALTER TABLE loyaltypoints REPLICA IDENTITY FULL;
