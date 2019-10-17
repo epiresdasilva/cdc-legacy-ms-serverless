@@ -1,0 +1,47 @@
+version: '3.3'
+services:
+    zookeeper:
+        container_name: zookeeper
+        ports:
+            - '2181:2181'
+            - '2888:2888'
+            - '3888:3888'
+        image: 'debezium/zookeeper:0.10'
+    kafka:
+        container_name: kafka
+        ports:
+            - '9092:9092'
+        links:
+            - 'zookeeper:zookeeper'
+        environment:
+            - ZOOKEEPER_CONNECT=zookeeper:2181
+        image: 'debezium/kafka:0.10'
+    postgres:
+        container_name: postgres
+        ports:
+            - '5435:5432'
+        environment:
+            - POSTGRES_PASSWORD=devfest
+        image: 'epiresdasilva/postgres-cdc-banking'
+    connect:
+        container_name: connect
+        ports:
+            - '8083:8083'
+        environment:
+            - GROUP_ID=1
+            - CONFIG_STORAGE_TOPIC=my_connect_configs
+            - OFFSET_STORAGE_TOPIC=my_connect_offsets
+            - STATUS_STORAGE_TOPIC=my_connect_statuses
+            - BOOTSTRAP_SERVERS=kafka:9092
+        links:
+            - 'zookeeper:zookeeper'
+            - 'kafka:kafka'
+            - 'postgres:postgres'
+        image: 'debezium/connect:0.10'
+    legacy:
+        container_name: legacy
+        ports:
+            - '8080:8080'
+        links:
+            - 'postgres:postgres'
+        image: 'epiresdasilva/banking-legacy'
