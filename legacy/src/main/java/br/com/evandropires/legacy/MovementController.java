@@ -1,23 +1,30 @@
 package br.com.evandropires.legacy;
 
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Objects;
 
+@Stateless
 @Path("/movements")
 @Produces(MediaType.APPLICATION_JSON)
 public class MovementController {
 
+    @EJB
+    private MovementService movementService;
+
     @GET
     @Path("{id}")
     public MovementDTO find(@PathParam("id") Integer id) {
-        return MovementDTO.builder().id(1).value(BigDecimal.TEN).competence(LocalDate.now()).build();
+        var movement = movementService.find(id);
+        return Objects.nonNull(movement) ? new MovementDTO(movement) : null;
     }
 
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     public MovementDTO create(MovementCreateDTO movementCreateDTO) {
-        return MovementDTO.builder().id(1).value(BigDecimal.TEN).competence(LocalDate.now()).build();
+        return new MovementDTO(movementService.save(movementCreateDTO.toEntity()));
     }
 
 }

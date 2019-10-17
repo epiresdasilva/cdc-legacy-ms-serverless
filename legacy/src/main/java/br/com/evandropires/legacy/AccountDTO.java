@@ -14,4 +14,12 @@ public class AccountDTO {
     private Integer account;
     private String name;
     private BigDecimal balance;
+
+    public AccountDTO(Account account) {
+        this.id = account.getId();
+        this.branch = account.getBranch();
+        this.account = account.getAccount();
+        this.name = account.getName();
+        this.balance = account.getBalance();
+    }
 }

@@ -1,0 +1,11 @@
+<datasources xmlns="http://www.jboss.org/ironjacamar/schema">
+    <datasource jndi-name="java:jboss/datasources/LegacyDS" pool-name="LegacyDS">
+        <driver>postgresql</driver>
+        <connection-url>jdbc:postgresql://postgres:5432/postgres
+        </connection-url>
+        <security>
+            <user-name>postgres</user-name>
+            <password>devfest</password>
+        </security>
+    </datasource>
+</datasources>
