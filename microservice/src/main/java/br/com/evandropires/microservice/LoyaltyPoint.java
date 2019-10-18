@@ -1,25 +1,25 @@
 package br.com.evandropires.microservice;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-@Builder
 @Entity
+@Table(name = "loyaltypoints", schema = "banking")
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class LoyaltyPoint {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
   @Column(name = "account_id")
   private Integer accountId;
 
-  @Column
-  private BigDecimal points;
+  @Column private BigDecimal points;
 }

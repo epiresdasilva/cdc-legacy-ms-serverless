@@ -38,6 +38,7 @@ services:
             - 'kafka:kafka'
             - 'postgres:postgres'
         image: 'debezium/connect:0.10'
+        # curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d '{ "name": "movement-connector", "config": { "connector.class": "io.debezium.connector.postgresql.PostgresConnector", "tasks.max": "1", "database.hostname": "postgres", "database.port": "5432",  "database.dbname": "postgres",  "database.user": "postgres", "database.password": "devfest", "database.server.id": "184054", "database.server.name": "postgres", "database.whitelist": "banking", "database.history.kafka.bootstrap.servers": "kafka:9092", "database.history.kafka.topic": "dbhistory.movement" } }'
     legacy:
         container_name: legacy
         ports:
@@ -45,3 +46,12 @@ services:
         links:
             - 'postgres:postgres'
         image: 'epiresdasilva/banking-legacy'
+    microservice:
+        build: ./microservice
+        container_name: microservice
+        ports:
+            - '8081:8080'
+        links:
+            - 'postgres:postgres'
+            - 'kafka:kafka'
+        image: 'epiresdasilva/microservice'

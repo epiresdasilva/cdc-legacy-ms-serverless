@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: kafka-streams-movement
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: postgres.banking.movements
+      kafka:
+        binder:
+          brokers: kafka:9092
+          configuration:
+            commit:
+              interval:
+                ms: 1000
+  datasource:
+    hikari:
+      connectionTimeout: 20000
+      maximumPoolSize: 5
+    url: jdbc:postgresql://postgres:5432/postgres
+    username: postgres
+    password: devfest
+  jpa:
+    hibernate:
+      ddl-auto: none
