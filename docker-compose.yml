@@ -55,3 +55,9 @@ services:
             - 'postgres:postgres'
             - 'kafka:kafka'
         image: 'epiresdasilva/microservice'
+    python-trigger:
+        build: ./python-trigger
+        container_name: python-trigger
+        links:
+            - 'kafka:kafka'
+        image: 'epiresdasilva/python-trigger'
